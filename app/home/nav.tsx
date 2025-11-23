@@ -11,7 +11,7 @@ export default function Navbar() {
   const socialIcons = [
     { name: "Github", icon: "https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/github.svg", url: "https://github.com/cloudywalnut" },
     { name: "Linkedin", icon: "https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/linkedin.svg", url: "https://www.linkedin.com/in/mustansir-muhammad-860a19242/" },
-    { name: "Instagram", icon: "https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/instagram.svg", url: "https://www.instagram.com/yourprofile/" },
+    { name: "Instagram", icon: "https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/instagram.svg", url: "https://www.instagram.com/mustansirmuhammad_/" },
   ];
 
   return (

@@ -1,6 +1,10 @@
+"use client";
+
 import Image from "next/image";
 import Navbar from "./nav";
 import Projects from "./projects";
+import Bot from "./bot";
+import { useState } from "react";
 
 export default function Home() {
   
@@ -13,6 +17,7 @@ export default function Home() {
     { name: "Angular", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/angularjs/angularjs-original.svg" },
   ]
 
+  const [botBox, setBotBox] = useState(false);
   
   return (
     
@@ -79,7 +84,10 @@ export default function Home() {
         height={50}
         className="fixed bottom-6 right-6 object-cover rounded-full cursor-pointer shadow-lg hover:scale-110 transition-transform duration-300"
         priority
+        onClick={() => {setBotBox(true)}}
       />
+    
+      <Bot botBox={botBox} setBotBox={setBotBox} />
 
     </>
   );
