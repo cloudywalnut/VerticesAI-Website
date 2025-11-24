@@ -24,7 +24,7 @@ export default function Home() {
     <>
       <Navbar />
 
-      <div className="relative w-full h-96 md:h-screen">
+      <div className="relative w-full h-102 md:h-screen">
         
         <Image
           src="/banner.png"
@@ -46,7 +46,7 @@ export default function Home() {
             </h1>
 
             {/* Subheading with Details */}
-            <p className="text-sm sm:text-base md:text-xl text-gray-200 font-light tracking-wide mb-6 md:mb-8 max-w-sm md:max-w-lg leading-relaxed block">
+            <p className="text-sm sm:text-base md:text-xl text-gray-200 font-bold md:font-light tracking-wide mb-6 md:mb-8 max-w-sm md:max-w-lg leading-relaxed block">
               An AI/ML enthusiast and Full Stack developer. I specialize in fine-tuning models, building scalable web apps, and solving complex problems with clean, practical code.
             </p>
 

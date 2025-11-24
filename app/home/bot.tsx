@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react"; // Understand useEffect, useRef and understand where and why it is used
 
 type BotProps = {
   botBox: boolean;
@@ -11,6 +11,17 @@ type BotProps = {
 export default function Bot({ botBox, setBotBox }: BotProps) {
   
   const [messages, setMessages] = useState<{ fromUser: boolean; text: string }[]>([]);
+  
+  // Allows to get an Element Reference which we can use - React DOM related
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  // Auto-scroll when messages change
+  // Anything inside useEffect will get run a certain amount of times, when the variable in the array of useEffect changes
+  // If nothing than it runs just once when the component is rendered
+  useEffect(() => {
+    // Using the ref to do something
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" }); // Only affects the scrollable parent
+  }, [messages]);
 
   // Make the handler better and allow the parsing of chathistory too
   async function handleMessageSubmit(){
@@ -30,12 +41,16 @@ export default function Bot({ botBox, setBotBox }: BotProps) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
+          history: messages.slice(-5),
           userMessage: userMessage, // whatever the user typed
         }),
       });      
       const result = await response.json();
 
       setMessages(prev => [...prev, { fromUser: false, text: result.aiMessage }]);
+
+      const element = document.getElementById("messageDisplay") as HTMLDivElement;
+      element.scrollTop = element.scrollHeight;
 
     }   
   }
@@ -73,7 +88,7 @@ export default function Bot({ botBox, setBotBox }: BotProps) {
       </div>
 
       {/* Messages Display */}
-      <div className="flex-1 w-full overflow-y-auto p-3 flex flex-col gap-2">
+      <div className="flex-1 w-full overflow-y-auto p-3 flex flex-col gap-2" id="messageDisplay">
         {messages.map((msg, idx) => (
           <div
             key={idx}
@@ -84,6 +99,7 @@ export default function Bot({ botBox, setBotBox }: BotProps) {
             {msg.text}
           </div>
         ))}
+        <div ref={messagesEndRef} /> {/* Scroll target */}
       </div>
 
       {/* Bot Input */}

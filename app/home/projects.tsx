@@ -49,11 +49,11 @@ export default function Projects() {
   ];
 
   return (
-    <section className="w-full py-16 md:py-24 bg-linear-to-b from-white via-gray-50 to-white" id="Projects">
+    <section className="w-full py-10 md:py-24 bg-linear-to-b from-white via-gray-50 to-white" id="Projects">
       <div className="max-w-7xl mx-auto px-6 sm:px-10 md:px-16 lg:px-20">
         
         {/* Section Heading */}
-        <div className="mb-16 md:mb-20">
+        <div className="mb-10 md:mb-20">
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-4">
             Projects
           </h2>
