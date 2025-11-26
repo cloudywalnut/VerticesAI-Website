@@ -1,3 +1,5 @@
+npx create-next-app@latest my-app
+
 This is the file structure that should be used...
 Next.js apparently manages routing and other stuff internally
 

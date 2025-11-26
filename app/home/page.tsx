@@ -47,7 +47,7 @@ export default function Home() {
 
             {/* Subheading with Details */}
             <p className="text-sm sm:text-base md:text-xl text-gray-200 font-bold md:font-light tracking-wide mb-6 md:mb-8 max-w-sm md:max-w-lg leading-relaxed block">
-              An AI/ML enthusiast and Full Stack developer. I specialize in fine-tuning models, building scalable web apps, and solving complex problems with clean, practical code.
+              An AI/ML enthusiast and Full Stack developer. I specialize in building scalable AI powered apps and services, fine-tuning LLMs, and solving complex problems with clean, practical code.
             </p>
 
             {/* Tech Stack Icons */}
