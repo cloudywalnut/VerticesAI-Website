@@ -4,6 +4,7 @@ import Image from "next/image";
 import Navbar from "./nav";
 import Projects from "./projects";
 import Bot from "./bot";
+import ContactForm from "./contact";
 import { useState } from "react";
 
 export default function Home() {
@@ -16,6 +17,13 @@ export default function Home() {
     { name: "Next.js", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nextjs/nextjs-original.svg" },
     { name: "Angular", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/angularjs/angularjs-original.svg" },
   ]
+
+  const companies = [
+    { name: "OSOM", icon: "/OSOM.png" },
+    { name: "APSPACE", icon: "/APSPACE.svg" },
+    { name: "Beyond", icon: "/Beyond.avif" },
+  ];
+
 
   const [botBox, setBotBox] = useState(false);
   
@@ -75,7 +83,40 @@ export default function Home() {
 
       </div>
 
+      {/* Companies I have Worked With */}
+      <section className="w-full py-10 md:py-15 bg-linear-to-b from-white via-gray-200 to-white" id="Projects">
+        
+        <div className="max-w-10xl mx-auto px-6 sm:px-10 md:px-16 lg:px-20">
+          <div className="mb-10 md:mb-10">
+            <h2 className="text-4xl text-center md:text-5xl lg:text-6xl font-bold text-gray-900 mb-4">
+              Building with <span className="text-orange-500">Great</span> Teams
+            </h2>
+            <p className="text-gray-600 text-lg md:text-xl mt-6 max-w-3xl font-light text-center mx-auto">
+              Behind every great project are even greater teams. Here are the amazing companies and collaborators I have had the privilege to build with and learn from.
+            </p>
+          </div>
+          
+          {/* Companies Grid */}
+          <div className="flex flex-wrap justify-center gap-8 md:gap-12 lg:gap-16">
+            {companies.map((company, index) => (
+              <div key={index} className="flex justify-center items-center">
+                <Image
+                  src={company.icon}
+                  alt={company.name}
+                  width={120}
+                  height={60}
+                  className="object-contain grayscale hover:grayscale-0 transition-all duration-300"
+                />
+              </div>
+            ))}
+          </div>
+          
+        </div>
+      </section>
+
       <Projects/>
+
+      <ContactForm/>
 
       <Image
         src="/bot.jpg"

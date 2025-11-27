@@ -1,59 +1,46 @@
 "use client";
 
-import Image from "next/image";
-
 export default function Projects() {
+
   const projects = [
-    {
-      id: 1,
-      title: "E-Commerce Platform",
-      description: "A modern full-stack e-commerce solution with real-time inventory management and seamless checkout experience.",
-      image: "/bot.jpg",
-      tags: ["React", "Node.js", "MongoDB"]
-    },
-    {
-      id: 2,
-      title: "AI Chat Bot",
-      description: "Intelligent chatbot powered by machine learning, providing 24/7 customer support and automation.",
-      image: "/bot.jpg",
-      tags: ["Python", "TensorFlow", "FastAPI"]
-    },
-    {
-      id: 3,
-      title: "Task Management App",
-      description: "Collaborative task management tool with real-time updates, notifications, and team workspace features.",
-      image: "/bot.jpg",
-      tags: ["Next.js", "Firebase", "Tailwind"]
-    },
-    {
-      id: 4,
-      title: "Social Media Analytics",
-      description: "Comprehensive analytics dashboard for tracking social media metrics and generating actionable insights.",
-      image: "/bot.jpg",
-      tags: ["React", "D3.js", "Express"]
-    },
-    {
-      id: 5,
-      title: "Mobile Fitness App",
-      description: "Cross-platform fitness application with workout tracking, progress monitoring, and personalized recommendations.",
-      image: "/bot.jpg",
-      tags: ["React Native", "Firebase", "Redux"]
-    },
-    {
-      id: 6,
-      title: "Automation Tool",
-      description: "Powerful automation tool for streamlining repetitive tasks and improving team productivity.",
-      image: "/bot.jpg",
-      tags: ["Python", "Selenium", "Docker"]
-    }
+      {
+          id: 1,
+          title: "AI Agentic Pipeline with LangChain",
+          description: "Built an AI agentic pipeline using LangChain with Supabase for contextual memory, retrieval, and function calling capabilities to answer student queries.",
+          tags: ["Python", "LangChain", "Supabase", "Flask", "AI Agents"]
+      },
+      {
+          id: 2,
+          title: "Neural Network For MNIST Digit Classifier from Scratch",
+          description: "Built a neural network from scratch in Python to classify handwritten digits. Implemented full training logic manually without ML libraries.",
+          tags: ["Python", "NumPy", "Neural Networks", "Machine Learning"]
+      },
+      {
+          id: 3,
+          title: "Facial Emotion Recognizer using Transfer Learning",
+          description: "Used transfer learning with TensorFlow to detect facial emotions. Fine-tuned a pre-trained CNN for accurate image-based emotion classification.",
+          tags: ["Python", "TensorFlow", "CNN", "Transfer Learning", "Computer Vision"]
+      },
+      {
+          id: 4,
+          title: "Neural Network Based Fraud Booking Detector",
+          description: "Developed a fraud detection system using booking stats from APIs. Trained a TensorFlow model and deployed with Flask for real-time results.",
+          tags: ["Python", "TensorFlow", "Flask", "Neural Networks", "Fraud Detection"]
+      },
+      {
+          id: 5,
+          title: "Angular Based AI Chat App",
+          description: "Developed an Angular-based AI chat app that generates auto-responses. Uses personas set by users for dynamic, personalized interactions.",
+          tags: ["TypeScript", "Angular", "Ionic", "LLMs", "Web Development"]
+      }
   ];
 
   return (
-    <section className="w-full py-10 md:py-24 bg-linear-to-b from-white via-gray-50 to-white" id="Projects">
-      <div className="max-w-7xl mx-auto px-6 sm:px-10 md:px-16 lg:px-20">
+    <section className="w-full py-10 md:py-15 bg-linear-to-b from-white via-gray-200 to-white" id="Projects">
+      <div className="max-w-10xl mx-auto px-6 sm:px-10 md:px-16 lg:px-20">
         
         {/* Section Heading */}
-        <div className="mb-10 md:mb-20">
+        <div className="mb-10 md:mb-10">
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-4">
             Projects
           </h2>
@@ -64,23 +51,12 @@ export default function Projects() {
         </div>
 
         {/* 3x2 Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {projects.map((project) => (
             <div
               key={project.id}
               className="group relative bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 cursor-pointer"
             >
-              {/* Project Image Container */}
-              <div className="relative h-56 md:h-64 overflow-hidden bg-gray-200">
-                <Image
-                  src={project.image}
-                  alt={project.title}
-                  fill
-                  className="object-cover group-hover:scale-110 transition-transform duration-500 ease-out"
-                />
-                {/* Overlay on Hover */}
-                <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-60 transition-opacity duration-300"></div>
-              </div>
 
               {/* Project Content */}
               <div className="p-6 md:p-7">
@@ -90,7 +66,7 @@ export default function Projects() {
                 </h3>
 
                 {/* Description */}
-                <p className="text-gray-600 text-sm md:text-base leading-relaxed mb-4 line-clamp-2">
+                <p className="text-gray-600 text-sm md:text-base leading-relaxed mb-4 line-clamp-4">
                   {project.description}
                 </p>
 
@@ -111,6 +87,7 @@ export default function Projects() {
                   View Project
                   <span className="group-hover/btn:translate-x-1 transition-transform duration-300">→</span>
                 </button>
+
               </div>
             </div>
           ))}
