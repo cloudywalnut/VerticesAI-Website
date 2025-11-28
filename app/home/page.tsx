@@ -7,7 +7,6 @@ import Projects from "./projects";
 import Bot from "./bot";
 import ContactForm from "./contact";
 import { useState } from "react";
-import { redirect } from "next/dist/server/api-utils";
 
 export default function Home() {
   
