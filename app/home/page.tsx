@@ -1,11 +1,13 @@
 "use client";
 
 import Image from "next/image";
+import Link from 'next/link'
 import Navbar from "./nav";
 import Projects from "./projects";
 import Bot from "./bot";
 import ContactForm from "./contact";
 import { useState } from "react";
+import { redirect } from "next/dist/server/api-utils";
 
 export default function Home() {
   
@@ -19,11 +21,11 @@ export default function Home() {
   ]
 
   const companies = [
-    { name: "SHM", icon: "/SHM.svg" },
-    { name: "OSOM", icon: "/OSOM.png" },
-    { name: "APSPACE", icon: "/APSPACE.svg" },
-    { name: "Beyond", icon: "/Beyond.avif" },
-    { name: "Grapes", icon: "/Grapes.png" },
+    { name: "SHM", icon: "/SHM.svg", link: "https://shmgroup.com.my/" },
+    { name: "OSOM", icon: "/OSOM.png", link: "https://osomschool.com/" },
+    { name: "APSPACE", icon: "/APSPACE.svg", link: "https://apspace.apu.edu.my/login" },
+    { name: "Beyond", icon: "/Beyond.avif", link: "https://bot.mei.trading/" },
+    { name: "Grapes", icon: "/Grapes.png", link: "https://smarthomes.grapes.com.my/" },
   ];
 
 
@@ -102,13 +104,16 @@ export default function Home() {
           <div className="flex flex-wrap justify-center gap-8 md:gap-12 lg:gap-16">
             {companies.map((company, index) => (
               <div key={index} className="flex justify-center items-center">
-                <Image
-                  src={company.icon}
-                  alt={company.name}
-                  width={120}
-                  height={60}
-                  className="object-contain grayscale hover:grayscale-0 transition-all duration-300"
-                />
+                {/* passHref needed when using customer components as child */}
+                <Link href={`${company.link}`} passHref>
+                  <Image
+                    src={company.icon}
+                    alt={company.name}
+                    width={140}
+                    height={80}
+                    className="object-contain grayscale hover:grayscale-0 transition-all duration-300 cursor-pointer"
+                  />
+                </Link>
               </div>
             ))}
           </div>
@@ -129,6 +134,7 @@ export default function Home() {
         priority
         onClick={() => {setBotBox(true)}}
       />
+
     
       <Bot botBox={botBox} setBotBox={setBotBox} />
 

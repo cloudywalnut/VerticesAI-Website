@@ -40,22 +40,21 @@ export default function Projects() {
       <div className="max-w-10xl mx-auto px-6 sm:px-10 md:px-16 lg:px-20">
         
         {/* Section Heading */}
-        <div className="mb-10 md:mb-10">
+        <div className="flex flex-col items-center text-center mb-10 md:mb-10">
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-4">
-            Projects
+            From Concept To <span className="text-orange-500">Code</span>
           </h2>
-          <div className="w-16 h-1 bg-linear-to-r from-orange-400 to-orange-600"></div>
           <p className="text-gray-600 text-lg md:text-xl mt-6 max-w-2xl font-light">
             Explore a selection of my recent work showcasing modern design, innovative solutions, and cutting-edge technology.
           </p>
         </div>
 
-        {/* 3x2 Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        {/* Flex Wrap */}
+        <div className="flex flex-wrap justify-center gap-5">
           {projects.map((project) => (
             <div
               key={project.id}
-              className="group relative bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 cursor-pointer"
+              className="w-full lg:w-100 group relative bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 cursor-pointer"
             >
 
               {/* Project Content */}
