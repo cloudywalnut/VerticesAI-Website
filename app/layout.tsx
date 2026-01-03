@@ -13,8 +13,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Hi, I'm Mustansir",
-  description: "Mustansir Portfolio",
+  title: "Vertices AI - Making AI Easy, Useful, and Accessible for Every Business",
+  description: "Smart chatbots, automation workflows, and enterprise AI solutions tailored for your business. Custom LLM-powered solutions with full data control.",
+  keywords: "AI consultancy, LLM solutions, chatbots, automation, enterprise AI, custom AI solutions",
 };
 
 export default function RootLayout({
