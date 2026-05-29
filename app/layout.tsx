@@ -1,35 +1,29 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Sora } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const sora = Sora({
+  variable: "--font-sora",
   subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700", "800"],
 });
 
 export const metadata: Metadata = {
-  title: "Vertices AI - Making AI Easy, Useful, and Accessible for Every Business",
-  description: "Smart chatbots, automation workflows, and enterprise AI solutions tailored for your business. Custom LLM-powered solutions with full data control.",
-  keywords: "AI consultancy, LLM solutions, chatbots, automation, enterprise AI, custom AI solutions",
+  title: "Vertices AI — AI Systems & Custom Software Built Around Your Business",
+  description:
+    "We build AI chatbots, automate workflows, create custom software and high-performing websites tailored to the way you operate.",
+  keywords:
+    "AI consultancy, chatbots, workflow automation, custom software, business websites",
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
-      </body>
+      <body className={`${sora.variable} antialiased`}>{children}</body>
     </html>
   );
 }

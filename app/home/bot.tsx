@@ -57,11 +57,11 @@ export default function Bot({ botBox, setBotBox }: BotProps) {
   
   return (
     <div
-      className={`flex flex-col items-center justify-between fixed bottom-6 right-6 w-[350px] h-[500px] bg-white rounded-2xl shadow-lg ${
+      className={`flex flex-col items-center justify-between fixed bottom-6 right-6 w-[350px] h-[500px] bg-white rounded-2xl shadow-lg z-60 ${
         !botBox ? "hidden" : ""
       }`}
     >
-      <div className="flex items-center justify-between bg-linear-to-r from-amber-600 to-amber-500 w-full px-4 py-3 rounded-t-2xl">
+      <div className="flex items-center justify-between w-full px-4 py-3 rounded-t-2xl" style={{ background: "linear-gradient(135deg, #F13223 0%, #ff6b4a 100%)" }}>
         
         <div className="flex items-center gap-3">
           <Image
@@ -80,7 +80,7 @@ export default function Bot({ botBox, setBotBox }: BotProps) {
 
         <button
           onClick={() => setBotBox(false)}
-          className="text-white hover:bg-amber-700 p-1 rounded-full transition-colors duration-200 flex items-center justify-center w-6 h-6"
+          className="text-white hover:bg-amber-700 p-1 rounded-full transition-colors duration-200 flex items-center justify-center w-6 h-6 cursor-pointer"
           aria-label="Close chat"
         >
           ✕
@@ -92,7 +92,7 @@ export default function Bot({ botBox, setBotBox }: BotProps) {
         {messages.map((msg, idx) => (
           <div
             key={idx}
-            className={`p-2 rounded-xl ${
+            className={`p-2 rounded-xl text-white ${
               msg.fromUser ? "bg-orange-600 self-end" : "bg-amber-500 self-start"
             }`}
           >

@@ -1,135 +1,148 @@
 "use client";
-
 import { useState } from "react";
+import { motion } from "framer-motion";
+import { EnvelopeIcon, CheckCircleIcon } from "@heroicons/react/24/outline";
+
+interface FormData {
+  name: string;
+  email: string;
+  company: string;
+  message: string;
+}
+
+interface FormErrors {
+  name: string;
+  email: string;
+  message: string;
+}
+
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+const inputClass =
+  "w-full px-4 py-3 bg-white border rounded-lg text-[#0F0F0F] placeholder-[#5A5A5A]/50 focus:outline-none focus:ring-2 focus:ring-[#F13223]/30 focus:border-[#F13223] transition-all duration-200 text-sm";
 
 export default function ContactForm() {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     name: "",
     email: "",
     company: "",
-    message: ""
+    message: "",
   });
-  
-  const [errors, setErrors] = useState({
+
+  const [errors, setErrors] = useState<FormErrors>({
     name: "",
     email: "",
-    company: "",
-    message: ""
+    message: "",
   });
 
   const [submitted, setSubmitted] = useState(false);
 
-  const validateEmail = (email: string) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
-
-    // Clear error when user starts typing
-    if (errors[name as keyof typeof errors]) {
-      setErrors(prev => ({
-        ...prev,
-        [name]: ""
-      }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
+    if (errors[name as keyof FormErrors]) {
+      setErrors((prev) => ({ ...prev, [name]: "" }));
     }
   };
 
-  // Need to Add Actual Form Submission Logic Here that Submit Forms to the Right Place
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    const newErrors: FormErrors = { name: "", email: "", message: "" };
     let valid = true;
-    const newErrors = { name: "", email: "", company: "", message: "" };
 
-    // Name validation
     if (!formData.name.trim()) {
       newErrors.name = "Name is required";
       valid = false;
     }
-
-    // Email validation
     if (!formData.email.trim()) {
       newErrors.email = "Email is required";
       valid = false;
-    } else if (!validateEmail(formData.email)) {
+    } else if (!emailRegex.test(formData.email)) {
       newErrors.email = "Please enter a valid email address";
       valid = false;
     }
-
-    // Company validation (optional but recommended)
-    if (!formData.company.trim()) {
-      newErrors.company = "Company name is recommended";
-    }
-
-    // Message validation
-    if (!formData.message.trim()) {
-      newErrors.message = "Message is required";
-      valid = false;
-    } else if (formData.message.length < 10) {
-      newErrors.message = "Message must be at least 10 characters long";
+    if (!formData.message.trim() || formData.message.length < 10) {
+      newErrors.message = "Message must be at least 10 characters";
       valid = false;
     }
 
     setErrors(newErrors);
 
     if (valid) {
-      // Handle form submission here - make a post request to email service
       console.log("Form submitted:", formData);
       setSubmitted(true);
       setFormData({ name: "", email: "", company: "", message: "" });
-      
-      // Reset success message after 5 seconds
-      setTimeout(() => {
-        setSubmitted(false);
-      }, 5000);
+      setTimeout(() => setSubmitted(false), 6000);
     }
   };
 
   if (submitted) {
     return (
-      <section className="w-full py-20 md:py-32 bg-black" id="contact">
-        <div className="max-w-4xl mx-auto px-6 sm:px-10 md:px-16 lg:px-20">
-          <div className="bg-gray-900 rounded-2xl p-12 border border-gray-800 text-center">
-            <div className="w-20 h-20 bg-orange-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
-              <svg className="w-10 h-10 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-              </svg>
+      <section id="contact" className="w-full py-24 bg-white">
+        <div className="max-w-2xl mx-auto px-6 lg:px-10">
+          <motion.div
+            className="border border-[#E8E8E8] rounded-2xl p-12 text-center"
+            initial={{ opacity: 0, scale: 0.97 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.4 }}
+          >
+            <div className="w-16 h-16 bg-[#FFF0EE] rounded-full flex items-center justify-center mx-auto mb-5">
+              <CheckCircleIcon className="w-8 h-8 text-[#F13223]" />
             </div>
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-              Thank You!
+            <h2 className="text-2xl font-bold text-[#0F0F0F] mb-3">
+              Message Received!
             </h2>
-            <p className="text-gray-300 text-lg md:text-xl">
-              We have received your message and will get back to you soon.
+            <p className="text-[#5A5A5A]">
+              Thanks for reaching out. We&apos;ll get back to you shortly.
             </p>
-          </div>
+          </motion.div>
         </div>
       </section>
     );
   }
 
   return (
-    <section className="w-full py-20 md:py-32 bg-black" id="contact">
-      <div className="max-w-4xl mx-auto px-6 sm:px-10 md:px-16 lg:px-20">
-        <div className="mb-12 text-center">
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4">
-            Contact <span className="text-orange-500">Us</span>
+    <section id="contact" className="w-full py-24 bg-white">
+      <div className="max-w-2xl mx-auto px-6 lg:px-10">
+        {/* Header */}
+        <motion.div
+          className="text-center mb-12"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+        >
+          <span className="text-[#F13223] text-xs font-semibold uppercase tracking-widest">
+            Contact
+          </span>
+          <h2 className="mt-3 text-4xl md:text-5xl font-bold text-[#0F0F0F]">
+            Let&apos;s <span className="text-[#F13223]">Talk</span>
           </h2>
-          <p className="text-gray-400 text-lg md:text-xl mt-6 max-w-2xl mx-auto">
-            Ready to transform your business with AI? Lets discuss your project.
+          <p className="mt-4 text-[#5A5A5A] text-lg">
+            Ready to transform your business with AI? Tell us about your
+            project.
           </p>
-        </div>
+        </motion.div>
 
-        <form onSubmit={handleSubmit} className="bg-gray-900 rounded-2xl shadow-2xl p-8 md:p-10 border border-gray-800">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-            {/* Name Field */}
+        {/* Form */}
+        <motion.form
+          onSubmit={handleSubmit}
+          className="bg-white border border-[#E8E8E8] rounded-2xl p-8 shadow-sm"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+        >
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-5">
+            {/* Name */}
             <div>
-              <label htmlFor="name" className="block text-gray-200 text-sm font-medium mb-2">
-                Name *
+              <label
+                htmlFor="name"
+                className="block text-sm font-semibold text-[#0F0F0F] mb-2"
+              >
+                Name <span className="text-[#F13223]">*</span>
               </label>
               <input
                 type="text"
@@ -137,20 +150,25 @@ export default function ContactForm() {
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
-                className={`w-full px-4 py-3 bg-black border rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-300 ${
-                  errors.name ? 'border-red-500' : 'border-gray-700'
-                }`}
                 placeholder="Your full name"
+                className={`${inputClass} ${
+                  errors.name
+                    ? "border-red-400"
+                    : "border-[#E8E8E8]"
+                }`}
               />
               {errors.name && (
-                <p className="text-red-400 text-sm mt-1">{errors.name}</p>
+                <p className="text-red-500 text-xs mt-1">{errors.name}</p>
               )}
             </div>
 
-            {/* Email Field */}
+            {/* Email */}
             <div>
-              <label htmlFor="email" className="block text-gray-200 text-sm font-medium mb-2">
-                Email *
+              <label
+                htmlFor="email"
+                className="block text-sm font-semibold text-[#0F0F0F] mb-2"
+              >
+                Email <span className="text-[#F13223]">*</span>
               </label>
               <input
                 type="email"
@@ -158,21 +176,27 @@ export default function ContactForm() {
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                className={`w-full px-4 py-3 bg-black border rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-300 ${
-                  errors.email ? 'border-red-500' : 'border-gray-700'
+                placeholder="your@email.com"
+                className={`${inputClass} ${
+                  errors.email
+                    ? "border-red-400"
+                    : "border-[#E8E8E8]"
                 }`}
-                placeholder="your.email@example.com"
               />
               {errors.email && (
-                <p className="text-red-400 text-sm mt-1">{errors.email}</p>
+                <p className="text-red-500 text-xs mt-1">{errors.email}</p>
               )}
             </div>
           </div>
 
-          {/* Company Field */}
-          <div className="mb-6">
-            <label htmlFor="company" className="block text-gray-200 text-sm font-medium mb-2">
-              Company
+          {/* Company */}
+          <div className="mb-5">
+            <label
+              htmlFor="company"
+              className="block text-sm font-semibold text-[#0F0F0F] mb-2"
+            >
+              Company{" "}
+              <span className="text-[#5A5A5A] font-normal">(optional)</span>
             </label>
             <input
               type="text"
@@ -180,58 +204,61 @@ export default function ContactForm() {
               name="company"
               value={formData.company}
               onChange={handleChange}
-              className={`w-full px-4 py-3 bg-black border rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-300 ${
-                errors.company ? 'border-yellow-500' : 'border-gray-700'
-              }`}
               placeholder="Your company name"
+              className={`${inputClass} border-[#E8E8E8]`}
             />
-            {errors.company && (
-              <p className="text-yellow-400 text-sm mt-1">{errors.company}</p>
-            )}
           </div>
 
-          {/* Message Field */}
-          <div className="mb-8">
-            <label htmlFor="message" className="block text-gray-200 text-sm font-medium mb-2">
-              Message *
+          {/* Message */}
+          <div className="mb-7">
+            <label
+              htmlFor="message"
+              className="block text-sm font-semibold text-[#0F0F0F] mb-2"
+            >
+              Message <span className="text-[#F13223]">*</span>
             </label>
             <textarea
               id="message"
               name="message"
               value={formData.message}
               onChange={handleChange}
-              rows={6}
-              className={`w-full px-4 py-3 bg-black border rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-300 resize-none ${
-                errors.message ? 'border-red-500' : 'border-gray-700'
-              }`}
+              rows={5}
               placeholder="Tell us about your project, requirements, or how we can help..."
+              className={`${inputClass} resize-none ${
+                errors.message ? "border-red-400" : "border-[#E8E8E8]"
+              }`}
             />
             {errors.message && (
-              <p className="text-red-400 text-sm mt-1">{errors.message}</p>
+              <p className="text-red-500 text-xs mt-1">{errors.message}</p>
             )}
           </div>
 
-          {/* Submit Button */}
+          {/* Submit */}
           <button
             type="submit"
-            className="w-full px-8 py-4 bg-orange-500 hover:bg-orange-600 text-white font-semibold text-lg rounded-lg transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-orange-500/50"
+            className="w-full py-4 bg-[#F13223] hover:bg-[#d42a1d] text-white font-semibold rounded-lg transition-colors duration-200 cursor-pointer text-base"
           >
-            Start Your AI Project
+            Send Message
           </button>
-        </form>
+        </motion.form>
 
-        {/* Contact Info */}
-        <div className="mt-12 text-center">
-          <p className="text-gray-400 mb-4">Or reach out directly:</p>
-          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center text-gray-300">
-            <a href="mailto:contact@verticesai.com" className="hover:text-orange-500 transition-colors flex items-center gap-2">
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-              </svg>
-              contact@verticesai.com
-            </a>
-          </div>
-        </div>
+        {/* Direct contact */}
+        <motion.div
+          className="mt-8 text-center"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.4, delay: 0.3 }}
+        >
+          <p className="text-[#5A5A5A] text-sm mb-3">Or reach out directly:</p>
+          <a
+            href="mailto:info.vertices.ai@gmail.com"
+            className="inline-flex items-center gap-2 text-[#0F0F0F] hover:text-[#F13223] font-medium transition-colors duration-200 text-sm"
+          >
+            <EnvelopeIcon className="w-4 h-4" />
+            info.vertices.ai@gmail.com
+          </a>
+        </motion.div>
       </div>
     </section>
   );
