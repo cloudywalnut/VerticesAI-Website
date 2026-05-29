@@ -1,5 +1,6 @@
 "use client";
 import Image from "next/image";
+import { useTheme } from "./theme-provider";
 
 const navLinks = [
   { name: "Home", href: "#home" },
@@ -50,35 +51,26 @@ const socials = [
 ];
 
 export default function Footer() {
+  const { theme } = useTheme();
+
   const scrollTo = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
     document.querySelector(href)?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
   return (
-    <footer className="w-full bg-white border-t border-[#E8E8E8]">
+    <footer className="w-full bg-canvas border-t border-edge">
       <div className="max-w-7xl mx-auto px-6 lg:px-10 py-14">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mb-10">
 
           {/* Brand */}
           <div className="md:col-span-1">
-            <a
-              href="#home"
-              onClick={(e) => scrollTo(e, "#home")}
-              className="inline-block mb-4"
-            >
-              <Image
-                src="/Vertices-NOBG.png"
-                alt="Vertices AI"
-                width={120}
-                height={56}
-                className="object-contain"
-              />
+            <a href="#home" onClick={(e) => scrollTo(e, "#home")} className="inline-block mb-4">
+              <Image src={theme === "dark" ? "/Vertices-NOBG-White.png" : "/Vertices-NOBG.png"} alt="Vertices AI" width={120} height={56} className="object-contain" />
             </a>
-            <p className="text-[#5A5A5A] text-sm leading-relaxed max-w-xs mb-5">
+            <p className="text-ink-2 text-sm leading-relaxed max-w-xs mb-5">
               AI systems and custom software built around your business — not the other way around.
             </p>
-            {/* Social icons */}
             <div className="flex items-center gap-2.5">
               {socials.map(({ name, href, icon }) => (
                 <a
@@ -87,7 +79,7 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={name}
-                  className="w-9 h-9 flex items-center justify-center rounded-lg bg-[#F7F7F7] text-[#5A5A5A] hover:bg-[#F13223] hover:text-white transition-all duration-200"
+                  className="w-9 h-9 flex items-center justify-center rounded-lg bg-surface text-ink-2 hover:bg-accent hover:text-white transition-all duration-200"
                 >
                   {icon}
                 </a>
@@ -97,16 +89,14 @@ export default function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h4 className="font-bold text-[#0F0F0F] text-sm uppercase tracking-wider mb-4">
-              Quick Links
-            </h4>
+            <h4 className="font-bold text-ink text-sm uppercase tracking-wider mb-4">Quick Links</h4>
             <ul className="space-y-2.5">
               {navLinks.map((link) => (
                 <li key={link.name}>
                   <a
                     href={link.href}
                     onClick={(e) => scrollTo(e, link.href)}
-                    className="text-[#5A5A5A] hover:text-[#F13223] text-sm transition-colors duration-200"
+                    className="text-ink-2 hover:text-accent text-sm transition-colors duration-200"
                   >
                     {link.name}
                   </a>
@@ -117,25 +107,15 @@ export default function Footer() {
 
           {/* Connect */}
           <div>
-            <h4 className="font-bold text-[#0F0F0F] text-sm uppercase tracking-wider mb-4">
-              Connect
-            </h4>
+            <h4 className="font-bold text-ink text-sm uppercase tracking-wider mb-4">Connect</h4>
             <ul className="space-y-3">
               <li>
-                <a
-                  href="mailto:info.vertices.ai@gmail.com"
-                  className="text-[#5A5A5A] hover:text-[#F13223] text-sm transition-colors duration-200"
-                >
+                <a href="mailto:info.vertices.ai@gmail.com" className="text-ink-2 hover:text-accent text-sm transition-colors duration-200">
                   info.vertices.ai@gmail.com
                 </a>
               </li>
               <li>
-                <a
-                  href="https://wa.me/60146231552"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-[#5A5A5A] hover:text-[#F13223] text-sm transition-colors duration-200"
-                >
+                <a href="https://wa.me/60146231552" target="_blank" rel="noopener noreferrer" className="text-ink-2 hover:text-accent text-sm transition-colors duration-200">
                   +60 14-623 1552
                 </a>
               </li>
@@ -143,13 +123,10 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Divider + copyright */}
-        <div className="border-t border-[#E8E8E8] pt-7 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-[#5A5A5A] text-sm">
-            © 2026 Vertices AI. All rights reserved.
-          </p>
-          <p className="text-[#5A5A5A] text-sm">
-            Built Around <span className="text-[#F13223] font-semibold">Your Business</span>
+        <div className="border-t border-edge pt-7 flex flex-col sm:flex-row items-center justify-between gap-3">
+          <p className="text-ink-2 text-sm">© 2026 Vertices AI. All rights reserved.</p>
+          <p className="text-ink-2 text-sm">
+            Built Around <span className="text-accent font-semibold">Your Business</span>
           </p>
         </div>
       </div>

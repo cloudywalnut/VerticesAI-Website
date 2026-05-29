@@ -1,28 +1,67 @@
 @import "tailwindcss";
 
+/* Dark mode activates when html has .dark class */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ── Light tokens ── */
 :root {
-  --accent: #F13223;
-  --accent-hover: #d42a1d;
-  --bg: #FFFFFF;
-  --bg-secondary: #F7F7F7;
-  --text: #0F0F0F;
-  --text-secondary: #5A5A5A;
-  --border: #E8E8E8;
+  --canvas:  #FFFFFF;
+  --surface: #F7F7F7;
+  --tint:    #FFF0EE;
+  --ink:     #0F0F0F;
+  --ink-2:   #5A5A5A;
+  --edge:    #E8E8E8;
+  --accent:  #F13223;
+  --accent-h:#d42a1d;
+  /* intentionally dark sections stay dark in both modes */
+  --night:   #0F0F0F;
+  --night-2: #1a1a1a;
 }
 
+/* ── Dark tokens ── */
+html.dark {
+  --canvas:  #111111;
+  --surface: #1c1c1c;
+  --tint:    #2a1510;
+  --ink:     #EFEFEF;
+  --ink-2:   #8A8A8A;
+  --edge:    #2a2a2a;
+  --night:   #0a0a0a;
+  --night-2: #161616;
+}
+
+/* ── Tailwind utility registration ── */
 @theme inline {
-  --font-sans: var(--font-sora);
+  --font-sans:           var(--font-sora);
+  --color-canvas:        var(--canvas);
+  --color-surface:       var(--surface);
+  --color-tint:          var(--tint);
+  --color-ink:           var(--ink);
+  --color-ink-2:         var(--ink-2);
+  --color-edge:          var(--edge);
+  --color-accent:        var(--accent);
+  --color-night:         var(--night);
+  --color-night-2:       var(--night-2);
 }
 
 html {
   scroll-behavior: smooth;
+  color-scheme: light;
+}
+html.dark {
+  color-scheme: dark;
 }
 
 body {
   background: linear-gradient(160deg, #ffffff 0%, #fff8f7 40%, #f7f4ff 80%, #ffffff 100%);
   background-attachment: fixed;
-  color: var(--text);
+  color: var(--ink);
   font-family: var(--font-sora), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+html.dark body {
+  background: linear-gradient(160deg, #111111 0%, #141210 40%, #131318 80%, #111111 100%);
+  background-attachment: fixed;
 }

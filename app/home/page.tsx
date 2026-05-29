@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 
+import { ThemeProvider } from "./theme-provider";
 import Navbar from "./nav";
 import Hero from "./hero";
 import Values from "./values";
@@ -20,7 +21,7 @@ export default function Home() {
   const [botBox, setBotBox] = useState(false);
 
   return (
-    <>
+    <ThemeProvider>
       <Navbar />
 
       {/* AI chat trigger — hidden while chat is open */}
@@ -30,7 +31,7 @@ export default function Home() {
           alt="AI Chat"
           width={52}
           height={52}
-          className="fixed bottom-6 right-6 object-cover rounded-full cursor-pointer shadow-lg hover:scale-110 transition-transform duration-300 z-40 border-2 border-[#F13223]"
+          className="fixed bottom-6 right-6 object-cover rounded-full cursor-pointer shadow-lg hover:scale-110 transition-transform duration-300 z-40 border-2 border-accent"
           priority={false}
           onClick={() => setBotBox(true)}
         />
@@ -50,6 +51,6 @@ export default function Home() {
       </main>
 
       <Footer />
-    </>
+    </ThemeProvider>
   );
 }
