@@ -15,6 +15,7 @@ export default function ContactForm() {
   const [formData, setFormData] = useState<FormData>({ name: "", email: "", company: "", message: "" });
   const [errors, setErrors] = useState<FormErrors>({ name: "", email: "", message: "" });
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -24,7 +25,7 @@ export default function ContactForm() {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const newErrors: FormErrors = { name: "", email: "", message: "" };
     let valid = true;
@@ -37,13 +38,41 @@ export default function ContactForm() {
     }
 
     setErrors(newErrors);
-    if (valid) {
-      console.log("Form submitted:", formData);
+    if (!valid) return;
+
+    setLoading(true);
+
+    try {
+      const response = await fetch("/api/contactForm", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to send message");
+      }
+
       setSubmitted(true);
-      setFormData({ name: "", email: "", company: "", message: "" });
+      setFormData({
+        name: "",
+        email: "",
+        company: "",
+        message: "",
+      });
+
       setTimeout(() => setSubmitted(false), 6000);
+    } catch (err) {
+      console.error("Submission error:", err);
+      alert("Something went wrong. Please try again or email us directly.");
+    } finally {
+      setLoading(false);
     }
+
   };
+
 
   if (submitted) {
     return (
