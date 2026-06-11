@@ -2,7 +2,13 @@ import { EC2Client, RunInstancesCommand } from "@aws-sdk/client-ec2";
 import { createClient } from "@/lib/supabase/server";
 import { NextResponse } from "next/server";
 
-const ec2 = new EC2Client({ region: "ap-southeast-1" });
+const ec2 = new EC2Client({
+  region: "ap-southeast-1",
+  credentials: {
+    accessKeyId: process.env.VERTICES_AWS_ACCESS_KEY_ID!,
+    secretAccessKey: process.env.VERTICES_AWS_SECRET_ACCESS_KEY!,
+  },
+});
 
 const repoUrl = "https://github.com/cloudywalnut/VerticesBot.git";
 
