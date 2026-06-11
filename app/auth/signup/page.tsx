@@ -148,7 +148,7 @@ export default function SignupPage() {
                       type="text"
                       value={form.name}
                       onChange={set("name")}
-                      placeholder="John Smith"
+                      placeholder="Mustansir"
                       required
                       className="w-full px-4 py-3 bg-canvas border border-edge rounded-lg text-ink placeholder:text-ink-2 focus:outline-none focus:border-accent transition-colors text-sm"
                     />
