@@ -29,6 +29,10 @@ export default function LoginPage() {
       return;
     }
 
+    // refresh() forces Next.js to re-run server components and middleware with
+    // the new auth cookie — without it, the server may still see the old
+    // unauthenticated state and redirect back to login, causing a delay or loop
+    router.refresh();
     router.push("/dashboard");
   };
 

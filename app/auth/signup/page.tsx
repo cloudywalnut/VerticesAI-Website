@@ -73,6 +73,9 @@ export default function SignupPage() {
       }
     }
 
+    // refresh() forces Next.js to sync server components with the new auth
+    // cookie set by signUp — prevents middleware seeing stale unauthenticated state
+    router.refresh();
     router.push("/dashboard");
   };
 

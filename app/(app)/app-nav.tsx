@@ -33,6 +33,9 @@ export default function AppNav() {
   const handleSignOut = async () => {
     const supabase = createClient();
     await supabase.auth.signOut();
+    // refresh() clears the Next.js server component cache so protected pages
+    // don't briefly flash stale authenticated content after sign-out
+    router.refresh();
     router.push("/");
   };
 
