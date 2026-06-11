@@ -1,8 +1,11 @@
 "use client";
 import { useState, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { Bars3Icon, XMarkIcon, ArrowRightIcon, SunIcon, MoonIcon } from "@heroicons/react/24/outline";
 import { useTheme } from "./theme-provider";
+import { createClient } from "@/lib/supabase/client";
+import type { User } from "@supabase/supabase-js";
 
 const navLinks = [
   { name: "Home", href: "#home" },
@@ -15,12 +18,40 @@ const navLinks = [
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
+  const [isAdmin, setIsAdmin] = useState(false);
   const { theme, toggle } = useTheme();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    const supabase = createClient();
+
+    supabase.auth.getSession().then(async ({ data: { session } }) => {
+      const u = session?.user ?? null;
+      setUser(u);
+      if (u) {
+        const { data } = await supabase.from("users").select("role").eq("id", u.id).single();
+        setIsAdmin(data?.role === "admin");
+      }
+    });
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_, session) => {
+      const u = session?.user ?? null;
+      setUser(u);
+      if (u) {
+        const { data } = await supabase.from("users").select("role").eq("id", u.id).single();
+        setIsAdmin(data?.role === "admin");
+      } else {
+        setIsAdmin(false);
+      }
+    });
+
+    return () => subscription.unsubscribe();
   }, []);
 
   const scrollTo = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
@@ -62,31 +93,35 @@ export default function Navbar() {
               </a>
             </li>
           ))}
+          {isAdmin && (
+            <li>
+              <Link
+                href="/admin"
+                className="text-ink-2 hover:text-accent text-sm font-medium transition-colors duration-200"
+              >
+                Admin Panel
+              </Link>
+            </li>
+          )}
         </ul>
 
         {/* Desktop CTA + Theme Toggle + Mobile Toggle */}
         <div className="flex items-center gap-3">
-          {/* Theme toggle */}
           <button
             onClick={toggle}
             aria-label="Toggle dark mode"
             className="p-2 rounded-lg text-ink-2 hover:text-accent hover:bg-surface transition-all duration-200 cursor-pointer"
           >
-            {theme === "dark" ? (
-              <SunIcon className="w-5 h-5" />
-            ) : (
-              <MoonIcon className="w-5 h-5" />
-            )}
+            {theme === "dark" ? <SunIcon className="w-5 h-5" /> : <MoonIcon className="w-5 h-5" />}
           </button>
 
-          <a
-            href="#contact"
-            onClick={(e) => scrollTo(e, "#contact")}
+          <Link
+            href={user ? "/dashboard" : "/auth/login"}
             className="hidden md:flex items-center gap-2 px-5 py-2.5 bg-accent hover:bg-[#d42a1d] text-white text-sm font-semibold rounded-lg transition-colors duration-200 whitespace-nowrap"
           >
-            Book a Consultation
+            {user ? "Dashboard" : "Try Our Business Bot"}
             <ArrowRightIcon className="w-4 h-4" />
-          </a>
+          </Link>
 
           <button
             className="md:hidden p-2 text-ink hover:text-accent transition-colors cursor-pointer"
@@ -113,15 +148,26 @@ export default function Navbar() {
                 </a>
               </li>
             ))}
+            {isAdmin && (
+              <li>
+                <Link
+                  href="/admin"
+                  onClick={() => setMobileOpen(false)}
+                  className="block py-3 text-ink font-medium hover:text-accent transition-colors border-b border-edge"
+                >
+                  Admin Panel
+                </Link>
+              </li>
+            )}
             <li className="pt-3">
-              <a
-                href="#contact"
-                onClick={(e) => scrollTo(e, "#contact")}
+              <Link
+                href={user ? "/dashboard" : "/auth/login"}
+                onClick={() => setMobileOpen(false)}
                 className="flex items-center justify-center gap-2 w-full py-3 bg-accent text-white font-semibold rounded-lg"
               >
-                Book a Consultation
+                {user ? "Dashboard" : "Try Our Business Bot"}
                 <ArrowRightIcon className="w-4 h-4" />
-              </a>
+              </Link>
             </li>
           </ul>
         </div>

@@ -23,3 +23,29 @@ my-next-app/
 ├─ next.config.js
 ├─ package.json
 └─ ...other config files
+
+
+Authentication Flow and Logic:
+The auth system uses Supabase with two clients — lib/supabase/client.ts for browser-side code and lib/supabase/server.ts
+for server-side code, the only difference being how they access the session cookie (document.cookie vs next/headers).
+The middleware.ts at the root runs on every request to /dashboard/* and /admin/* before anything loads — it reads the
+session from the request cookies directly, redirects unauthenticated users to /auth/login, and for /admin also queries the users
+table to confirm role = 'admin'. The signup page (app/auth/signup/page.tsx) calls supabase.auth.signUp() to create the auth
+user then immediately inserts a row into the users table using the returned UID to store name, company, industry, size and
+role. The login page (app/auth/login/page.tsx) calls supabase.auth.signInWithPassword() which sets the session cookie
+automatically. The app/auth/callback/route.ts exists only for when email confirmation is enabled — it exchanges
+the one-time code from the confirmation email link for a real session cookie. The dashboard (app/(app)/dashboard/page.tsx)
+and admin (app/(app)/admin/page.tsx) pages use the server client to call auth.getUser() and fetch data server-side before
+the page renders. Both API routes (createBot and updateBot) use the server client to verify the session at the top before
+doing anything — updateBot also checks the admin role. The home nav (app/home/nav.tsx) uses the browser client with
+onAuthStateChange to reactively show "Try Our Business Bot" or "Dashboard" and conditionally show "Admin Panel" for admins.
+The app nav (app/(app)/app-nav.tsx) does the same for the authenticated section. No secrets are exposed to the browser — AWS keys
+and SSH key have no NEXT_PUBLIC_ prefix.
+
+Database Structure:
+user table has a uuid foreign key reference to auth.users
+bots table has a uuid foreign key references to public.users
+
+Check the botName in DB must be unique - make sure bot with same names are not created - Done
+
+Understand the JWT Token Workflow and how Supabase works and Makes it easier.

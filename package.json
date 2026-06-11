@@ -9,10 +9,14 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@aws-sdk/client-ec2": "^3.1065.0",
     "@heroicons/react": "^2.2.0",
+    "@supabase/ssr": "^0.12.0",
+    "@supabase/supabase-js": "^2.108.1",
     "dotenv": "^17.2.3",
     "framer-motion": "^12.40.0",
     "next": "^16.1.1",
+    "node-ssh": "^13.2.1",
     "nodemailer": "^8.0.10",
     "openai": "^6.9.1",
     "react": "19.2.0",

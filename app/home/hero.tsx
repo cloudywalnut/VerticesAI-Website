@@ -1,5 +1,6 @@
 "use client";
 import { motion, type Variants } from "framer-motion";
+import Link from "next/link";
 import { ArrowRightIcon, UserGroupIcon, BoltIcon, ChatBubbleLeftRightIcon } from "@heroicons/react/24/outline";
 
 const fadeUp: Variants = {
@@ -71,17 +72,17 @@ export default function Hero() {
             className="flex flex-wrap gap-4 mb-10"
             initial="hidden" animate="visible" custom={3} variants={fadeUp}
           >
+            <Link
+              href="/dashboard"
+              className="flex items-center gap-2 px-6 py-3.5 bg-accent hover:bg-[#d42a1d] text-white font-semibold rounded-lg transition-colors duration-200"
+            >
+              Try Our Business Bot <ArrowRightIcon className="w-4 h-4" />
+            </Link>
             <button
               onClick={() => scrollTo("#contact")}
-              className="flex items-center gap-2 px-6 py-3.5 bg-accent hover:bg-[#d42a1d] text-white font-semibold rounded-lg transition-colors duration-200 cursor-pointer"
-            >
-              Book a Consultation <ArrowRightIcon className="w-4 h-4" />
-            </button>
-            <button
-              onClick={() => scrollTo("#services")}
               className="flex items-center gap-2 px-6 py-3.5 border border-edge hover:border-ink text-ink font-semibold rounded-lg transition-colors duration-200 cursor-pointer"
             >
-              View Services <ArrowRightIcon className="w-4 h-4" />
+              Book a Consultation <ArrowRightIcon className="w-4 h-4" />
             </button>
           </motion.div>
 
